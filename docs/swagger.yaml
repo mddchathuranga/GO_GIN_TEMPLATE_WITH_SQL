@@ -1,0 +1,165 @@
+definitions:
+  dtos.UserDTO:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      email:
+        type: string
+      mobile:
+        type: string
+      username:
+        type: string
+    required:
+    - address
+    - age
+    - email
+    - mobile
+    - username
+    type: object
+  dtos.UserGetDTO:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      mobile:
+        type: string
+      username:
+        type: string
+    type: object
+  exutilities.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /users/createUser:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the given details
+      operationId: create-user
+      parameters:
+      - description: User object that needs to be created
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Create a new user
+      tags:
+      - User
+  /users/deleteUserById/{id}:
+    delete:
+      description: Delete a user with the given ID
+      operationId: delete-user-by-id
+      parameters:
+      - description: User ID to delete
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Delete a user by ID
+      tags:
+      - User
+  /users/getAllUsers:
+    get:
+      description: Get a list of all users
+      operationId: get-all-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.UserGetDTO'
+            type: array
+      summary: Get all users
+      tags:
+      - User
+  /users/getUserById/{id}:
+    get:
+      description: Get a user with the given ID
+      operationId: get-user-by-id
+      parameters:
+      - description: User ID to retrieve
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.UserGetDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Get a user by ID
+      tags:
+      - User
+  /users/updateUserById/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user with the given ID
+      operationId: update-user-by-id
+      parameters:
+      - description: User ID to be updated
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated user object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.UserDTO'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Update a user by ID
+      tags:
+      - User
+swagger: "2.0"

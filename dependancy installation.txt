@@ -1,0 +1,13 @@
+// swagger
+go get -u github.com/swaggo/swag/cmd/swag
+go install github.com/swaggo/swag/cmd/swag@latest
+go get -u github.com/swaggo/files
+go get -u github.com/swaggo/gin-swagger
+
+// validator package install
+go get -u github.com/go-playground/validator/v10   
+
+// logger install
+go get -u github.com/sirupsen/logrus
+go get -u github.com/rifflock/lfshook
+go get gopkg.in/natefinch/lumberjack.v2 
