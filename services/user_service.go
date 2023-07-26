@@ -19,7 +19,6 @@ func GetAllUsers() []dtos.UserGetDTO {
 
 func CreateUser(newDTO dtos.UserDTO) string {
 	newUser := MapToUser(newDTO)
-	newUser.ID = repositories.GetLengthOfUsers()
 	return repositories.CreateUser(newUser)
 }
 

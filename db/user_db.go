@@ -1,9 +1,45 @@
 package db
 
-import "github.com/user/test_template/models"
+import (
+	"database/sql"
 
-var Users = []models.User{
-	{ID: 1, Username: "Dasun", Address: "Mirigama", Mobile: "0711234567", Age: 30, Email: "dasun.e.com"},
-	{ID: 2, Username: "Amith", Address: "Colombo", Mobile: "0722222222", Age: 15, Email: "amith.e.com"},
-	{ID: 3, Username: "Lasan", Address: "Gampaha", Mobile: "07188888888", Age: 25, Email: "lasan.e.com"},
+	"github.com/user/test_template/logger"
+	"github.com/user/test_template/models"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
+
+var DB *gorm.DB
+var err error
+
+const dsn = "root:Bb_1188484@tcp(127.0.0.1:3306)/"
+const dbname = "usergo"
+const dbinfo = "?charset=utf8&parseTime=True&loc=Local"
+
+func createDatabaseIfNotExists(db *sql.DB) error {
+	_, err := db.Exec("CREATE DATABASE IF NOT EXISTS " + dbname)
+	return err
+}
+
+func InitialDbConnection() {
+	logger := logger.GetLogger() // Get the initialized logger instance
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		logger.Info("Cannot connect to DB:", err.Error())
+		panic("cannot connect to the database")
+	}
+	defer db.Close()
+
+	if err := createDatabaseIfNotExists(db); err != nil {
+		logger.Info("Cannot create DB:", err.Error())
+		panic("cannot create the database")
+	}
+
+	DB, err = gorm.Open(mysql.Open(dsn+dbname+dbinfo), &gorm.Config{})
+	if err != nil {
+
+		logger.Info("Cannot connect to DB :", err.Error())
+		panic("cabbot connect to database")
+	}
+	DB.AutoMigrate(&models.User{})
 }

@@ -4,49 +4,62 @@ import (
 	"errors"
 
 	"github.com/user/test_template/db"
+	"github.com/user/test_template/logger"
 	"github.com/user/test_template/models"
 )
 
 func GetAllUsers() []models.User {
-
-	return db.Users
+	var users []models.User
+	db.DB.Find(&users)
+	return users
 }
 
 func CreateUser(user models.User) string {
-	db.Users = append(db.Users, user)
+	logger := logger.GetLogger() // Get the initialized logger instance
+	result := db.DB.Create(&user)
+	if result.Error != nil {
+		logger.Info("user cannot create :", result.Error)
+		return "operation failed"
+
+	}
 	return "user saved"
 }
 
-func GetLengthOfUsers() int {
-	return len(db.Users) + 1
-}
-
 func UpdateUser(id int, updateUser models.User) error {
-	for i, u := range db.Users {
-		if u.ID == id {
-			updateUser.ID = id
-			db.Users[i] = updateUser
-			return nil
-		}
+	logger := logger.GetLogger() // Get the initialized logger instance
+	var user models.User
+	result := db.DB.First(&user, id)
+	if result.Error != nil {
+		logger.Info("user not found")
+		return errors.New("user not found")
 	}
-	return errors.New("user not found")
+	result = db.DB.Model(&user).Updates(updateUser)
+
+	if result.Error != nil {
+		logger.Info("user cannot create :", result.Error)
+		return errors.New(result.Error.Error())
+	}
+	return nil
 }
 func GetUserByID(id int) (models.User, error) {
-	for i, u := range db.Users {
-		if u.ID == id {
-			return db.Users[i], nil
-		}
+	var user models.User
+	result := db.DB.First(&user, id)
+	if result.Error != nil {
+		return models.User{}, errors.New(result.Error.Error())
 	}
-	return models.User{}, errors.New("user not found")
+	return user, nil
+
 }
 
 func DeleteUserByID(id int) error {
-	for i, u := range db.Users {
-		if u.ID == id {
-			db.Users = append(db.Users[:i], db.Users[i+1:]...)
-			return nil
 
-		}
+	logger := logger.GetLogger() // Get the initialized logger instance
+	var user models.User
+	result := db.DB.First(&user, id)
+	if result.Error != nil {
+		logger.Info("user not found")
+		return errors.New("user not found")
 	}
-	return errors.New("user not found")
+	db.DB.Delete(&user, id)
+	return nil
 }
