@@ -14,15 +14,15 @@ func GetAllUsers() []models.User {
 	return users
 }
 
-func CreateUser(user models.User) string {
+func CreateUser(user models.User) error {
 	logger := logger.GetLogger() // Get the initialized logger instance
 	result := db.DB.Create(&user)
 	if result.Error != nil {
-		logger.Info("user cannot create :", result.Error)
-		return "operation failed"
+		logger.Info(result.Error)
+		return errors.New(result.Error.Error())
 
 	}
-	return "user saved"
+	return nil
 }
 
 func UpdateUser(id int, updateUser models.User) error {
@@ -30,13 +30,13 @@ func UpdateUser(id int, updateUser models.User) error {
 	var user models.User
 	result := db.DB.First(&user, id)
 	if result.Error != nil {
-		logger.Info("user not found")
-		return errors.New("user not found")
+		logger.Info(result.Error)
+		return errors.New(result.Error.Error())
 	}
 	result = db.DB.Model(&user).Updates(updateUser)
 
 	if result.Error != nil {
-		logger.Info("user cannot create :", result.Error)
+		logger.Info(result.Error)
 		return errors.New(result.Error.Error())
 	}
 	return nil
@@ -57,8 +57,8 @@ func DeleteUserByID(id int) error {
 	var user models.User
 	result := db.DB.First(&user, id)
 	if result.Error != nil {
-		logger.Info("user not found")
-		return errors.New("user not found")
+		logger.Info(result.Error)
+		return errors.New(result.Error.Error())
 	}
 	db.DB.Delete(&user, id)
 	return nil

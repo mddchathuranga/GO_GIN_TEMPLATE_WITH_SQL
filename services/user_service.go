@@ -19,7 +19,10 @@ func GetAllUsers() []dtos.UserGetDTO {
 
 func CreateUser(newDTO dtos.UserDTO) string {
 	newUser := MapToUser(newDTO)
-	return repositories.CreateUser(newUser)
+	if err := repositories.CreateUser(newUser); err != nil {
+		return err.Error()
+	}
+	return "user Created"
 }
 
 func UpdateUser(id int, newDTO dtos.UserDTO) string {
@@ -27,7 +30,7 @@ func UpdateUser(id int, newDTO dtos.UserDTO) string {
 	newUser := MapToUser(newDTO)
 	if err := repositories.UpdateUser(id, newUser); err != nil {
 
-		return "user not found"
+		return err.Error()
 
 	}
 	return "user updated"
@@ -37,7 +40,7 @@ func GetUserByID(id int) (dtos.UserGetDTO, error) {
 	var user models.User
 	user, err := repositories.GetUserByID(id)
 	if err != nil {
-		return dtos.UserGetDTO{}, errors.New("user not found")
+		return dtos.UserGetDTO{}, errors.New(err.Error())
 	}
 	userGetDTO := MapToUserGetByIDDTO(user)
 	return userGetDTO, nil
