@@ -80,6 +80,12 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 	logger.Info("Received update user reqest with :", updateUserDTO)
+	if err := exutilities.ValidateUserDTO(updateUserDTO); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, exutilities.ErrorResponse{Message: err.Error()})
+		logger.Info("User validation failed:", err.Error())
+		return
+	}
+
 	c.IndentedJSON(http.StatusOK, services.UpdateUser(id, updateUserDTO))
 
 }
