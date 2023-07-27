@@ -25,5 +25,6 @@ func RunServer() {
 	router.DELETE("/posts/deletePost/:id", handlers.DeletePostByID)
 	router.GET("/posts/getPostById/:id", handlers.GetPostByID)
 	router.GET("/posts/getPostByUserId/:id", handlers.GetPostByUserID)
+	router.GET("/fetchJSON/:id", handlers.FetchJasonData)
 	router.Run("localhost:8080")
 }

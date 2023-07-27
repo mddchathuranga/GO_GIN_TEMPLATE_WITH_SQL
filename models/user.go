@@ -11,5 +11,5 @@ type User struct {
 	Age      int    `gorm:"not null"`
 	Email    string `gorm:"not null;unique"`
 	// Define the association with posts
-	Posts []Post `gorm:"foreignKey:UserID"`
+	//Posts []Post `gorm:"foreignKey:UserID"`
 }

@@ -16,7 +16,7 @@ import (
 // @Summary Create a new post
 // @Description Create a new Post with the given details
 // @ID create-post
-// @Accept json
+// @Accept json0
 // @Produce json
 // @Param post body dtos.PostDTO true "Post object that needs to be created"
 // @Success 201 {object} dtos.PostDTO
