@@ -4,12 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger" // Import gin-swagger middleware
-	"github.com/user/test_template/handlers"   // Import the auto-generated docs package
+	"github.com/user/test_template/db"
+	"github.com/user/test_template/handlers" // Import the auto-generated docs package
 	"github.com/user/test_template/logger"
 )
 
 func RunServer() {
 	logger.InitLogger("default", 1, 3, 7)
+	db.InitialDbConnection()
 	router := gin.Default()
 	// Register the Swagger handler
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
