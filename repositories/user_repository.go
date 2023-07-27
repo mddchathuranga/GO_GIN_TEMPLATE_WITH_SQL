@@ -60,6 +60,12 @@ func DeleteUserByID(id int) error {
 		logger.Info(result.Error)
 		return errors.New(result.Error.Error())
 	}
-	db.DB.Delete(&user, id)
+	//db.DB.Delete(&user, id)// if need uncoped
+
+	if err := db.DB.Unscoped().Delete(&user, id).Error; err != nil { // can use to delete fully
+		logger.Info(err)
+		return errors.New(err.Error())
+
+	}
 	return nil
 }
