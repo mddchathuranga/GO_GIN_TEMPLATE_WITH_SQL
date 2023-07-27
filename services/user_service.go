@@ -46,8 +46,11 @@ func GetUserByID(id int) (dtos.UserGetDTO, error) {
 	return userGetDTO, nil
 
 }
-func DeleteUserByID(id int) error {
-	return repositories.DeleteUserByID(id)
+func DeleteUserByID(id int) string {
+	if err := repositories.DeleteUserByID(id); err != nil {
+		return err.Error()
+	}
+	return "deleted"
 }
 
 func MapToUser(userDTO dtos.UserDTO) models.User {

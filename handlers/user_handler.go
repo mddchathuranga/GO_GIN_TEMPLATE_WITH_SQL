@@ -43,8 +43,8 @@ func CreateUser(c *gin.Context) {
 	logger := logger.GetLogger() // Get the initialized logger instance
 	var newUserDTO dtos.UserDTO
 	if err := c.BindJSON(&newUserDTO); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, exutilities.ErrorResponse{Message: "user not created"})
-		logger.Info("User creation failed:")
+		c.IndentedJSON(http.StatusBadRequest, exutilities.ErrorResponse{Message: err.Error()})
+		logger.Info(err)
 		return
 	}
 	logger.Info("Received new user DTO:", newUserDTO)
@@ -76,7 +76,7 @@ func UpdateUser(c *gin.Context) {
 	var updateUserDTO dtos.UserDTO
 	if err := c.BindJSON(&updateUserDTO); err != nil {
 		c.IndentedJSON(http.StatusNotFound, exutilities.ErrorResponse{Message: "user not found"})
-		logger.Info("user not found under user ID :" + idStr)
+		logger.Info(err)
 		return
 	}
 	logger.Info("Received update user reqest with :", updateUserDTO)
@@ -106,8 +106,8 @@ func GetUserByID(c *gin.Context) {
 	id, _ := strconv.Atoi(idStr)
 	var userGetDTO, err = services.GetUserByID(id)
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, exutilities.ErrorResponse{Message: "user not found"})
-		logger.Info("user not found under user ID :" + idStr)
+		c.IndentedJSON(http.StatusNotFound, exutilities.ErrorResponse{Message: err.Error()})
+		logger.Info(err.Error())
 		return
 	}
 	logger.Info("Received get user details by ID :"+idStr, userGetDTO)
@@ -128,12 +128,12 @@ func DeleteUserByID(c *gin.Context) {
 	logger := logger.GetLogger() // Get the initialized logger instance
 	idStr := c.Param("id")
 	id, _ := strconv.Atoi(idStr)
-	err := services.DeleteUserByID(id)
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, exutilities.ErrorResponse{Message: "user not found"})
-		logger.Info("user not found under user ID :" + idStr)
+	response := services.DeleteUserByID(id)
+	if response != "deleted" {
+		c.IndentedJSON(http.StatusNotFound, exutilities.ErrorResponse{Message: response})
+		logger.Info(response)
 		return
 	}
-	logger.Info("Received Delete user details by ID :" + idStr)
-	c.IndentedJSON(http.StatusNoContent, gin.H{"message": "user deleted"})
+	logger.Info(response)
+	c.IndentedJSON(http.StatusNoContent, response)
 }
