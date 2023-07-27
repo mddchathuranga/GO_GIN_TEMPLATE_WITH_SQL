@@ -10,3 +10,8 @@ func ValidateUserDTO(userDTO dtos.UserDTO) error {
 	return validate.Struct(userDTO)
 
 }
+
+func ValidatePostDTO(postDTO dtos.PostDTO) error {
+	validate := validator.New()
+	return validate.Struct(postDTO)
+}

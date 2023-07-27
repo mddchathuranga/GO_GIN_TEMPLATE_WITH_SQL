@@ -20,5 +20,10 @@ func RunServer() {
 	router.PUT("/users/updateUserById/:id", handlers.UpdateUser)
 	router.GET("/users/getUserById/:id", handlers.GetUserByID)
 	router.DELETE("/users/deleteUserById/:id", handlers.DeleteUserByID)
+	router.POST("/posts/createPost/:id", handlers.CreatePost)
+	router.PUT("/posts/updatePost/:id", handlers.UpdatePost)
+	router.DELETE("/posts/deletePost/:id", handlers.DeletePostByID)
+	router.GET("/posts/getPostById/:id", handlers.GetPostByID)
+	router.GET("/posts/getPostByUserId/:id", handlers.GetPostByUserID)
 	router.Run("localhost:8080")
 }

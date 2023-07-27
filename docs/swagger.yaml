@@ -1,4 +1,25 @@
 definitions:
+  dtos.PostDTO:
+    properties:
+      content:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - content
+    - title
+    type: object
+  dtos.PostGetDTO:
+    properties:
+      content:
+        type: string
+      post_id:
+        type: integer
+      title:
+        type: string
+    type: object
   dtos.UserDTO:
     properties:
       address:
@@ -41,6 +62,139 @@ definitions:
 info:
   contact: {}
 paths:
+  /posts/createpost/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Post with the given details
+      operationId: create-post
+      parameters:
+      - description: Post object that needs to be created
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.PostDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.PostDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Create a new post
+      tags:
+      - Post
+  /posts/deletePost/{id}:
+    delete:
+      description: Delete a post with the given ID
+      operationId: delete-post-by-id
+      parameters:
+      - description: Post ID to delete
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Delete a post by ID
+      tags:
+      - Post
+  /posts/getPostById/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a Post with the given ID
+      operationId: get-post-by-id
+      parameters:
+      - description: User ID to retrieve
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.PostDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Get a Post by ID
+      tags:
+      - Post
+  /posts/getPostByUserId/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a Post with the given user ID
+      operationId: get-post-by--user-id
+      parameters:
+      - description: User ID to retrieve
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.PostGetDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Get a Post by Users ID
+      tags:
+      - Post
+  /posts/updatePost/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Post with the given ID
+      operationId: Update-post
+      parameters:
+      - description: Post ID to be updated
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Post Object
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.PostDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.PostDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exutilities.ErrorResponse'
+      summary: Update Post By ID
+      tags:
+      - Post
   /users/createUser:
     post:
       consumes:

@@ -4,6 +4,206 @@
         "contact": {}
     },
     "paths": {
+        "/posts/createpost/{id}": {
+            "post": {
+                "description": "Create a new Post with the given details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Create a new post",
+                "operationId": "create-post",
+                "parameters": [
+                    {
+                        "description": "Post object that needs to be created",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PostDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PostDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exutilities.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/deletePost/{id}": {
+            "delete": {
+                "description": "Delete a post with the given ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Delete a post by ID",
+                "operationId": "delete-post-by-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Post ID to delete",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/exutilities.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/getPostById/{id}": {
+            "get": {
+                "description": "Get a Post with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Get a Post by ID",
+                "operationId": "get-post-by-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID to retrieve",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PostDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exutilities.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/getPostByUserId/{id}": {
+            "get": {
+                "description": "Get a Post with the given user ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Get a Post by Users ID",
+                "operationId": "get-post-by--user-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID to retrieve",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PostGetDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exutilities.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/updatePost/{id}": {
+            "put": {
+                "description": "Update an existing Post with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Update Post By ID",
+                "operationId": "Update-post",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Post ID to be updated",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Post Object",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PostDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.PostDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exutilities.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/createUser": {
             "post": {
                 "description": "Create a new user with the given details",
@@ -188,6 +388,38 @@
         }
     },
     "definitions": {
+        "dtos.PostDTO": {
+            "type": "object",
+            "required": [
+                "content",
+                "title"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dtos.PostGetDTO": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "dtos.UserDTO": {
             "type": "object",
             "required": [

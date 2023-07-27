@@ -11,8 +11,8 @@ import (
 )
 
 func GetAllUsers() []dtos.UserGetDTO {
-	var users []models.User
-	users = repositories.GetAllUsers()
+	//var users []models.User
+	users := repositories.GetAllUsers()
 	usersGetDTO := MapToUserGetDTO(users)
 	return usersGetDTO
 }
