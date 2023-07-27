@@ -42,4 +42,5 @@ func InitialDbConnection() {
 		panic("cabbot connect to database")
 	}
 	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.Post{})
 }

@@ -10,4 +10,6 @@ type User struct {
 	Mobile   string `gorm:"not null;unique"`
 	Age      int    `gorm:"not null"`
 	Email    string `gorm:"not null;unique"`
+	// Define the association with posts
+	Posts []Post `gorm:"foreignKey:UserID"`
 }
