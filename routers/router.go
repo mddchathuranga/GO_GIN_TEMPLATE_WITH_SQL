@@ -26,5 +26,6 @@ func RunServer() {
 	router.GET("/posts/getPostById/:id", handlers.GetPostByID)
 	router.GET("/posts/getPostByUserId/:id", handlers.GetPostByUserID)
 	router.GET("/fetchJSON/:id", handlers.FetchJasonData)
+	router.GET("/add/:numA/:numB", handlers.HandleAdd)
 	router.Run("localhost:8080")
 }
