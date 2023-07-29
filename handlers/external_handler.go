@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/user/test_template/dtos"
 	"github.com/user/test_template/exutilities"
 )
 
@@ -22,7 +24,8 @@ func FetchJasonData(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: err.Error()})
 		return
 	}
-	defer response.Body.Close()
+
+	defer response.Body.Close() // defer used for shedule task
 	if response.StatusCode != http.StatusOK {
 		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: "API returned a non-200 status code"})
 		return
@@ -32,7 +35,13 @@ func FetchJasonData(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: err.Error()})
 		return
 	}
-	c.Header("Content-Type", "application/json")
-	c.String(http.StatusOK, string(data))
+	var filterDTO dtos.ExtDTO
+	if err := json.Unmarshal(data, &filterDTO); err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: "Error parsing API response"})
+		return
+
+	}
+
+	c.IndentedJSON(http.StatusOK, filterDTO)
 
 }
