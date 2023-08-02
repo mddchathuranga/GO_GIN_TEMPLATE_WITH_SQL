@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 
@@ -30,7 +30,7 @@ func FetchJasonData(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: "API returned a non-200 status code"})
 		return
 	}
-	data, err := ioutil.ReadAll(response.Body)
+	data, err := io.ReadAll(response.Body)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: err.Error()})
 		return
