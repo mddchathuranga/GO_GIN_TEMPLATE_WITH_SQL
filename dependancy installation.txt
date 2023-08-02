@@ -11,3 +11,27 @@ go get -u github.com/go-playground/validator/v10
 go get -u github.com/sirupsen/logrus
 go get -u github.com/rifflock/lfshook
 go get gopkg.in/natefinch/lumberjack.v2 
+
+
+
+
+
+// 
+
+/*type SOAPResponse struct {
+	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Envelope"`
+	SoapEnv string   `xml:"xmlns:soapenv,attr"`
+	Xsi     string   `xml:"xmlns:xsi,attr"`
+	Xsd     string   `xml:"xmlns:xsd,attr"`
+	Body    SOAPResponseBody
+}
+
+type SOAPResponseBody struct {
+	XMLName     xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
+	AddResponse AddResponse
+}
+
+type AddResponse struct {
+	XMLName   xml.Name `xml:"http://tempuri.org/ AddResponse"`
+	AddResult int      `xml:"AddResult"`
+}*/

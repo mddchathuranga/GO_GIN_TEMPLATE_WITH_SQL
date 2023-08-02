@@ -61,7 +61,7 @@ func HandleAdd(c *gin.Context) {
 	buf.ReadFrom(resp.Body)
 	responseXML := buf.String()
 
-	// Parse the SOAP response XML
+	// Parse the SOAP response XML to add manipulate ability
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(responseXML); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, exutilities.ErrorResponse{Message: err.Error()})
