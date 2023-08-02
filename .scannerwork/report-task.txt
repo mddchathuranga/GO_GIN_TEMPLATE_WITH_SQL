@@ -1,0 +1,6 @@
+projectKey=golang_template
+serverUrl=http://localhost:9000
+serverVersion=10.1.0.73491
+dashboardUrl=http://localhost:9000/dashboard?id=golang_template
+ceTaskId=AYm1QkpBOnvr80Tomd9Y
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYm1QkpBOnvr80Tomd9Y
