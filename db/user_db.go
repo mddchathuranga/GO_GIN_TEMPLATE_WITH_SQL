@@ -10,7 +10,6 @@ import (
 )
 
 var DB *gorm.DB
-var err error
 
 const dsn = "root:Bb_1188484@tcp(127.0.0.1:3306)/"
 const dbname = "usergo"
@@ -41,6 +40,7 @@ func InitialDbConnection() {
 		logger.Info("Cannot connect to DB :", err.Error())
 		panic("cabbot connect to database")
 	}
+
 	DB.AutoMigrate(&models.User{})
 	DB.AutoMigrate(&models.Post{})
 }
